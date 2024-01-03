@@ -3,7 +3,7 @@ import Navbar from "@/components/Navbar/page";
 
 const Page = async ({ params }) => {
   const keyword = params.keyword;
-  const API = process.env.NEXT_PUBLC_API_BASE_URL;
+  const API = process.env.NEXT_PUBLIC_API_BASE_URL;
 
   const decodeKeyword = decodeURI(keyword);
 
