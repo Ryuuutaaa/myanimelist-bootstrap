@@ -8,3 +8,11 @@
   height: auto;
   max-height: 350px;
 }
+
+.card-effect {
+  transition: all 0.3s ease-in-out;
+}
+
+.card-effect:hover {
+  transform: scale(1.1);
+}

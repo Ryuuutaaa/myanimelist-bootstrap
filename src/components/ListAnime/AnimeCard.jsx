@@ -4,8 +4,8 @@ import "../../app/public/styles/cards.css";
 const AnimeCard = ({ AnimeImage, AnimeTitle, id }) => {
   return (
     <>
-      <div className="col-lg-3 col-md-4 col-sm-6 mb-4 fs-6">
-        <Link href={`/${id}`} className="text-decoration-none">
+      <div className="col-lg-3 col-md-4 col-sm-6 mb-4 fs-6 card-effect">
+        <Link href={`/anime/${id}`} className="text-decoration-none ">
           <div className=" p-3 .cards-style" s>
             <img
               src={AnimeImage}

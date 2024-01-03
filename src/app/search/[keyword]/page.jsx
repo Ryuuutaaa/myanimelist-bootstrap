@@ -5,7 +5,9 @@ const Page = async ({ params }) => {
   const keyword = params.keyword;
   const API = process.env.NEXT_PUBLC_API_BASE_URL;
 
-  const response = await fetch(`${API}/anime?q=${keyword}`);
+  const decodeKeyword = decodeURI(keyword);
+
+  const response = await fetch(`${API}/anime?q=${decodeKeyword}`);
   const response1 = await fetch(`${API}/genres/anime`);
 
   const searchAnime = await response.json();
@@ -15,7 +17,7 @@ const Page = async ({ params }) => {
     <div className="bg-black">
       <Navbar />
       <div style={{ paddingTop: "100px" }}>
-        <ListAnime api={searchAnime} genres={genresAnime} />
+        <ListAnime popular={searchAnime} genres={genresAnime} />
       </div>
     </div>
   );

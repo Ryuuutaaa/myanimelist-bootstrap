@@ -15,12 +15,15 @@ const Upcoming = ({ upcoming }) => {
         </h5>
       </div>
       <div className="row">
-        {upcoming.data.map((anime) => (
+        {upcoming.data?.map((anime, index) => (
           <div
-            className="col-lg-3 col-md-4 col-sm-6 mb-4 fs-6"
-            key={anime.mal_id}
+            className="col-lg-3 col-md-4 col-sm-6 mb-4 fs-6 card-effect"
+            key={index}
           >
-            <Link href={`/${anime.mal_id}`} className="text-decoration-none">
+            <Link
+              href={`/anime/${anime.mal_id}`}
+              className="text-decoration-none"
+            >
               <div className=" p-3 .cards-style">
                 <img
                   src={anime.images.jpg.image_url}
