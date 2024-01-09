@@ -1,12 +1,9 @@
-"use client";
 import VideoPlayer from "@/components/utilities/VideoPlayer";
 import "../../../app/public/styles/cards.css";
 import { getAnimeResponse } from "@/libs/api-libs";
-import { useState } from "react";
+import Synopsis from "@/components/ListAnime/Synopsis";
 
 const page = async ({ params: { id } }) => {
-  const [showFullSynopsis, setShowFullSynopsis] = useState(false);
-
   const anime = await getAnimeResponse(`anime/${id}`);
   const karakter = await getAnimeResponse(`anime/${id}/characters`);
   const staffAnime = await getAnimeResponse(`anime/${id}/staff`);
@@ -22,14 +19,6 @@ const page = async ({ params: { id } }) => {
 
     return `${month} ${day}${year !== 0 ? `, ${year}` : ""}`;
   }
-
-  const truncateSynopsis = (text, maxLength = 300) => {
-    if (text.length <= maxLength) {
-      return text;
-    }
-    const truncatedText = text.slice(0, maxLength);
-    return `${truncatedText}...`;
-  };
 
   return (
     <div>
@@ -49,22 +38,17 @@ const page = async ({ params: { id } }) => {
                     {anime.data?.title_japanese}, {anime.data?.title}
                   </span>
                 </div>
-                <p className="text-white">
-                  {showFullSynopsis ? anime.data.synopsis.replace("[Written by MAL Rewrite]", "") : truncateSynopsis(anime.data.synopsis.replace("[Written by MAL Rewrite]", ""))}
-                  {anime.data.synopsis.length > 300 && (
-                    <span className="cursor-pointer text-secondary" onClick={() => setShowFullSynopsis(!showFullSynopsis)}>
-                      {showFullSynopsis ? " Lebih Sedikit" : " Lihat Selengkapnya"}
-                    </span>
-                  )}
-                </p>
+
+                <Synopsis anime={anime} />
+
                 <div className="my-4 row">
                   <div className="col-md-6">
                     <ul className="list-unstyled">
                       <li>
-                        <span className="text-white">Type:</span> {anime.data.type ? anime.data.type : "?"}, source: {anime.data.source ? anime.data.source : "?"}
+                        <span className="text-white text-sm">Type:</span> {anime.data.type ? anime.data.type : "?"}, source: {anime.data.source ? anime.data.source : "?"}
                       </li>
                       <li className="d-flex">
-                        <span className="text-white">Studios:</span>{" "}
+                        <span className="text-white text-sm">Studios:</span>{" "}
                         <ul className="list-unstyled ms-2">
                           {anime.data.studios.map((studio) => (
                             <li key={studio.mal_id}>{studio.name}</li>
@@ -72,26 +56,26 @@ const page = async ({ params: { id } }) => {
                         </ul>
                       </li>
                       <li>
-                        <span className="text-white">Status:</span> {anime.data.status}
+                        <span className="text-white text-sm">Status:</span> {anime.data.status}
                       </li>
                       <li>
-                        <span className="text-white">Date Aired:</span> {anime.data.aired.from ? formatDate(anime.data.aired.from) : "?"} to {anime.data.aired.to ? formatDate(anime.data.aired.to) : "?"}
+                        <span className="text-white text-sm">Date Aired:</span> {anime.data.aired.from ? formatDate(anime.data.aired.from) : "?"} to {anime.data.aired.to ? formatDate(anime.data.aired.to) : "?"}
                       </li>
                     </ul>
                   </div>
                   <div className="col-md-6">
                     <ul className="list-unstyled">
                       <li>
-                        <span className="text-white">Rating:</span> {anime.data.rating ? anime.data.rating : "?"}
+                        <span className="text-white text-sm">Rating:</span> {anime.data.rating ? anime.data.rating : "?"}
                       </li>
                       <li>
-                        <span className="text-white">Durations:</span> {anime.data.duration ? anime.data.duration : "?"}
+                        <span className="text-white text-sm">Durations:</span> {anime.data.duration ? anime.data.duration : "?"}
                       </li>
                       <li>
-                        <span className="text-white">Scores:</span> {anime.data.score ? anime.data.score : "?"} / 10
+                        <span className="text-white text-sm">Scores:</span> {anime.data.score ? anime.data.score : "?"} / 10
                       </li>
                       <li>
-                        <span className="text-white">Genre:</span> {anime.data.genres.map((genre) => genre.name).join(", ")}
+                        <span className="text-white text-sm">Genre:</span> {anime.data.genres.map((genre) => genre.name).join(", ")}
                       </li>
                     </ul>
                   </div>

@@ -12,8 +12,7 @@ const Page = () => {
   const [topAnime, setTopAnime] = useState([]);
 
   const fetchData = async () => {
-    const response = await getAnimeResponse("top/anime", `page=${pagess}`);
-    const data = await response.json();
+    const data = await getAnimeResponse("top/anime", `page=${pagess}`);
     setTopAnime(data);
   };
 
@@ -26,11 +25,7 @@ const Page = () => {
       <div>
         <Header title={`ANIME POPULAR #${pagess}`} />
         <ListAnime popular={topAnime} />
-        <PaginationBottom
-          page={pagess}
-          setPage={setPage}
-          lastPage={topAnime.pagination?.last_visible_page}
-        />
+        <PaginationBottom page={pagess} setPage={setPage} lastPage={topAnime.pagination?.last_visible_page} />
       </div>
     </div>
   );

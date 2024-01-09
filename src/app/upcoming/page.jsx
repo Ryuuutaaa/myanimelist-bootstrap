@@ -1,6 +1,5 @@
 "use client";
 
-import Upcoming from "@/components/ListAnime/Upcoming";
 import ListAnime from "@/components/ListAnime/page";
 import Header from "@/components/utilities/Header";
 import PaginationBottom from "@/components/utilities/Pagination";
@@ -23,12 +22,8 @@ const Home = () => {
     <div className="bg-black">
       <div>
         <Header title={`UPCOMING ANIME #${pagess}`} />
-        <Upcoming upcoming={upcomingAnime} />
-        <PaginationBottom
-          page={pagess}
-          setPage={setPage}
-          lastPage={upcomingAnime.pagination?.last_visible_page}
-        />
+        <ListAnime popular={upcomingAnime} />
+        <PaginationBottom page={pagess} setPage={setPage} lastPage={upcomingAnime.pagination?.last_visible_page} />
       </div>
     </div>
   );
