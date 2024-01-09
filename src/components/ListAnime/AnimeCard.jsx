@@ -9,7 +9,7 @@ const AnimeCard = ({ AnimeImage, AnimeTitle, id }) => {
           <div className=" p-3 .cards-style" s>
             <img
               src={AnimeImage}
-              className="card-img-top img-style"
+              className="card-img-top img-style rounded-2 border border-secondary"
               alt={AnimeTitle}
             />
             <div className="card-body">

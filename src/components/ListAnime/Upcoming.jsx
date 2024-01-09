@@ -27,7 +27,7 @@ const Upcoming = ({ upcoming }) => {
               <div className=" p-3 .cards-style">
                 <img
                   src={anime.images.jpg.image_url}
-                  className="card-img-top img-style"
+                  className="card-img-top img-style rounded-2 border border-secondary"
                   alt={anime.title}
                 />
                 <div className="card-body">

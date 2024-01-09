@@ -15,7 +15,7 @@ const Home = async () => {
   const genresAnime = await response1.json();
   const upcomingAnime = await upcoming.json();
   return (
-    <div className="bg-black">
+    <div>
       <Navbar />
       <MyCarousel api={topAnime} />
       <div style={{ paddingTop: "100px" }}>

@@ -14,7 +14,7 @@ const Page = async ({ params }) => {
   const genresAnime = await response1.json();
 
   return (
-    <div className="bg-black">
+    <div>
       <Navbar />
       <div style={{ paddingTop: "100px" }}>
         <ListAnime popular={searchAnime} genres={genresAnime} />

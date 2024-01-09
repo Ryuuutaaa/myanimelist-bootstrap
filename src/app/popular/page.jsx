@@ -23,7 +23,7 @@ const Page = () => {
   }, [pagess]);
 
   return (
-    <div className="bg-black">
+    <div>
       <Navbar />
       <div>
         <Header title={`ANIME POPULAR #${pagess}`} />
