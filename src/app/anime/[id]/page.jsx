@@ -30,7 +30,7 @@ const page = async ({ params: { id } }) => {
                 <img src={anime.data?.images.jpg.large_image_url} alt={`poster for ${anime.data?.title}`} className="d-none d-md-block card-img-top" />
               </div>
             </div>
-            <div className="col-md-8 mt-5 text-white">
+            <div className="col-md-8 mt-5 text-white fs-6">
               <div className="col-lg-12">
                 <div className="mb-3">
                   <h4 className="text-white font-weight-bold mb-1">{anime.data?.title}</h4>
@@ -75,7 +75,7 @@ const page = async ({ params: { id } }) => {
                         <span className="text-white text-sm">Scores:</span> {anime.data.score ? anime.data.score : "?"} / 10
                       </li>
                       <li>
-                        <span className="text-white text-sm">Genre:</span> {anime.data.genres.map((genre) => genre.name).join(", ")}
+                        <span className="text-white">Genre:</span> {anime.data.genres.map((genre) => genre.name).join(", ")}
                       </li>
                     </ul>
                   </div>
