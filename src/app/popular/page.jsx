@@ -1,19 +1,18 @@
 "use client";
 
 import ListAnime from "@/components/ListAnime/page";
-import Navbar from "@/components/Navbar/page";
 import Header from "@/components/utilities/Header";
 import PaginationBottom from "@/components/utilities/Pagination";
+import { getAnimeResponse } from "@/libs/api-libs";
 import { useEffect } from "react";
 import { useState } from "react";
 
 const Page = () => {
   const [pagess, setPage] = useState(1);
   const [topAnime, setTopAnime] = useState([]);
-  const API = process.env.NEXT_PUBLIC_API_BASE_URL;
 
   const fetchData = async () => {
-    const response = await fetch(`${API}/top/anime?page=${pagess}`);
+    const response = await getAnimeResponse("top/anime", `page=${pagess}`);
     const data = await response.json();
     setTopAnime(data);
   };
@@ -24,7 +23,6 @@ const Page = () => {
 
   return (
     <div>
-      <Navbar />
       <div>
         <Header title={`ANIME POPULAR #${pagess}`} />
         <ListAnime popular={topAnime} />

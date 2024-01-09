@@ -8,12 +8,8 @@ const VideoPlayer = ({ youtubeId }) => {
     heigt: "100%",
   };
   return (
-    <div>
-      <YouTube
-        videoId={youtubeId}
-        onReady={(event) => event.target.pauseVideo()}
-        opts={options}
-      />
+    <div className="mx-5">
+      <YouTube videoId={youtubeId} onReady={(event) => event.target.pauseVideo()} opts={options} />
     </div>
   );
 };

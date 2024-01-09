@@ -1,118 +1,115 @@
+"use client";
 import VideoPlayer from "@/components/utilities/VideoPlayer";
 import "../../../app/public/styles/cards.css";
+import { getAnimeResponse } from "@/libs/api-libs";
+import { useState } from "react";
 
 const page = async ({ params: { id } }) => {
-  const API = process.env.NEXT_PUBLIC_API_BASE_URL;
+  const [showFullSynopsis, setShowFullSynopsis] = useState(false);
 
-  const response = await fetch(`${API}/anime/${id}`);
-  const response1 = await fetch(`${API}/anime/${id}/characters`);
-  const response2 = await fetch(`${API}/anime/${id}/staff`);
-
-  const anime = await response.json();
-  const karakter = await response1.json();
-  const staffAnime = await response2.json();
-
-  console.log(karakter);
+  const anime = await getAnimeResponse(`anime/${id}`);
+  const karakter = await getAnimeResponse(`anime/${id}/characters`);
+  const staffAnime = await getAnimeResponse(`anime/${id}/staff`);
 
   const trailerYoutubeId = anime.data.trailer?.youtube_id;
 
+  function formatDate(dateString) {
+    const date = new Date(dateString);
+    const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Des"];
+    const day = date.getDate().toString().padStart(2, "0");
+    const month = monthNames[date.getMonth()];
+    const year = date.getFullYear();
+
+    return `${month} ${day}${year !== 0 ? `, ${year}` : ""}`;
+  }
+
+  const truncateSynopsis = (text, maxLength = 300) => {
+    if (text.length <= maxLength) {
+      return text;
+    }
+    const truncatedText = text.slice(0, maxLength);
+    return `${truncatedText}...`;
+  };
+
   return (
     <div>
-      <div class="container-fluid ">
-        {trailerYoutubeId && <VideoPlayer youtubeId={trailerYoutubeId} />}
-        <div class="row align-items-center mt-5">
-          <div class="col-3 text-center">
-            <div>
-              <img
-                src={anime.data.images.jpg.image_url}
-                alt=""
-                className="rounded-2 border border-secondary
-                "
-              />
+      <div className="container-fluid ">
+        <div className="container">
+          <div className="row">
+            <div className="col-md-4 mt-5">
+              <div className="card overflow-hidden self-center rounded">
+                <img src={anime.data?.images.jpg.large_image_url} alt={`poster for ${anime.data?.title}`} className="d-none d-md-block card-img-top" />
+              </div>
             </div>
-            <div className="d-flex justify-content-evenly fs-5 mt-3">
-              {anime.data.score ? (
-                <>
-                  <div className="d-flex align-items-center justify-content-center text-center">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="16"
-                      height="16"
-                      fill="currentColor"
-                      class="bi bi-star-fill"
-                      viewBox="0 0 16 16"
-                    >
-                      <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
-                    </svg>
-                    <p className="my-3 mx-2">
-                      {anime.data.score ? anime.data.score : "-"}
-                    </p>
+            <div className="col-md-8 mt-5 text-white">
+              <div className="col-lg-12">
+                <div className="mb-3">
+                  <h4 className="text-white font-weight-bold mb-1">{anime.data?.title}</h4>
+                  <span className="text-secondary text-sm d-block">
+                    {anime.data?.title_japanese}, {anime.data?.title}
+                  </span>
+                </div>
+                <p className="text-white">
+                  {showFullSynopsis ? anime.data.synopsis.replace("[Written by MAL Rewrite]", "") : truncateSynopsis(anime.data.synopsis.replace("[Written by MAL Rewrite]", ""))}
+                  {anime.data.synopsis.length > 300 && (
+                    <span className="cursor-pointer text-secondary" onClick={() => setShowFullSynopsis(!showFullSynopsis)}>
+                      {showFullSynopsis ? " Lebih Sedikit" : " Lihat Selengkapnya"}
+                    </span>
+                  )}
+                </p>
+                <div className="my-4 row">
+                  <div className="col-md-6">
+                    <ul className="list-unstyled">
+                      <li>
+                        <span className="text-white">Type:</span> {anime.data.type ? anime.data.type : "?"}, source: {anime.data.source ? anime.data.source : "?"}
+                      </li>
+                      <li className="d-flex">
+                        <span className="text-white">Studios:</span>{" "}
+                        <ul className="list-unstyled ms-2">
+                          {anime.data.studios.map((studio) => (
+                            <li key={studio.mal_id}>{studio.name}</li>
+                          ))}
+                        </ul>
+                      </li>
+                      <li>
+                        <span className="text-white">Status:</span> {anime.data.status}
+                      </li>
+                      <li>
+                        <span className="text-white">Date Aired:</span> {anime.data.aired.from ? formatDate(anime.data.aired.from) : "?"} to {anime.data.aired.to ? formatDate(anime.data.aired.to) : "?"}
+                      </li>
+                    </ul>
                   </div>
-                </>
-              ) : (
-                "-"
-              )}
-
-              {anime.data.rank ? (
-                <>
-                  <div className="d-flex align-items-center justify-content-center text-center">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="20"
-                      height="20"
-                      fill="currentColor"
-                      class="bi bi-trophy-fill"
-                      viewBox="0 0 16 16"
-                    >
-                      <path d="M2.5.5A.5.5 0 0 1 3 0h10a.5.5 0 0 1 .5.5q0 .807-.034 1.536a3 3 0 1 1-1.133 5.89c-.79 1.865-1.878 2.777-2.833 3.011v2.173l1.425.356c.194.048.377.135.537.255L13.3 15.1a.5.5 0 0 1-.3.9H3a.5.5 0 0 1-.3-.9l1.838-1.379c.16-.12.343-.207.537-.255L6.5 13.11v-2.173c-.955-.234-2.043-1.146-2.833-3.012a3 3 0 1 1-1.132-5.89A33 33 0 0 1 2.5.5m.099 2.54a2 2 0 0 0 .72 3.935c-.333-1.05-.588-2.346-.72-3.935m10.083 3.935a2 2 0 0 0 .72-3.935c-.133 1.59-.388 2.885-.72 3.935" />
-                    </svg>
-                    <p className="my-3 mx-2">
-                      {anime.data.rank ? anime.data.rank : "-"}
-                    </p>
+                  <div className="col-md-6">
+                    <ul className="list-unstyled">
+                      <li>
+                        <span className="text-white">Rating:</span> {anime.data.rating ? anime.data.rating : "?"}
+                      </li>
+                      <li>
+                        <span className="text-white">Durations:</span> {anime.data.duration ? anime.data.duration : "?"}
+                      </li>
+                      <li>
+                        <span className="text-white">Scores:</span> {anime.data.score ? anime.data.score : "?"} / 10
+                      </li>
+                      <li>
+                        <span className="text-white">Genre:</span> {anime.data.genres.map((genre) => genre.name).join(", ")}
+                      </li>
+                    </ul>
                   </div>
-                </>
-              ) : (
-                "-"
-              )}
-            </div>
-          </div>
-          <div class="col-8 fs-5">
-            <div className="fs-3">{anime.data.title}</div>
-            <p className="text-secondary fs-">{anime.data.title_japanese}</p>
-            <div>
-              <p>
-                {anime.data.genres
-                  .map((genre) => (genre.name ? genre.name : "-"))
-                  .join(", ")}
-              </p>
-            </div>
-            <div>
-              <p>
-                {anime.data.synopsis
-                  ? anime.data.synopsis
-                      .replace("[Written by MAL Rewrite]")
-                      .slice(0, 500)
-                  : "-"}
-              </p>
-            </div>
-            <div>
-              {anime.data.year ? <>year : {anime.data.year}</> : "-"}
-              &nbsp;&nbsp;&nbsp;
-              {anime.data.episodes ? <>eps : {anime.data.episodes}</> : "-"}
+                </div>
+              </div>
             </div>
           </div>
         </div>
-        <div className="my-5">
-          <h3 className="ms-2">Chracter</h3>
+
+        <div className="my-5">{trailerYoutubeId && <VideoPlayer youtubeId={trailerYoutubeId} />}</div>
+
+        <div className="my-5 mx-3 px-3 px-lg-5 mx-lg-5 px-md-4 mx-md-4">
+          <h4 className="ms-2 my-2">Character in : {anime.data.title}</h4>
           <div className="row text-center">
             {karakter.data.slice(0, 12).map((c, index) => (
               <div className="col-2" key={index}>
                 <div>
-                  <img
-                    src={c.character.images.jpg.image_url}
-                    alt=""
-                    className="img-style rounded-2 border border-secondary"
-                  />
+                  <img src={c.character.images.jpg.image_url} alt="" className="img-style rounded-2 border border-secondary" />
                   <div className="fs-6 mb-5">{c.character.name}</div>
                 </div>
               </div>

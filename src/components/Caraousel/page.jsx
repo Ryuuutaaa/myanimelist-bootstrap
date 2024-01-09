@@ -32,11 +32,7 @@ const MyCarousel = ({ api }) => {
                 {anime.title}
               </h1>
             </div>
-            <img
-              src={anime.images.jpg.large_image_url}
-              alt=""
-              className="w-100 h-100 object-fit-cover carousel-img"
-            />
+            <img src={anime.images.jpg.large_image_url} alt="" className="w-100 h-100 object-fit-cover carousel-img" />
           </div>
         </SwiperSlide>
       ))}
