@@ -14,7 +14,9 @@ const InputSearch = () => {
 
     if (event.key === "Enter" || event.type === "click") {
       event.preventDefault();
-      router.push(`/search/${keyword}`);
+      if (keyword.trim() !== "") {
+        router.push(`/search/${keyword}`);
+      }
     }
   };
 

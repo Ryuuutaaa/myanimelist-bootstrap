@@ -15,7 +15,20 @@ const page = async ({ params: { id } }) => {
 
   function formatDate(dateString) {
     const date = new Date(dateString);
-    const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Des"];
+    const monthNames = [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Des",
+    ];
     const day = date.getDate().toString().padStart(2, "0");
     const month = monthNames[date.getMonth()];
     const year = date.getFullYear();
@@ -38,22 +51,43 @@ const page = async ({ params: { id } }) => {
           <div className="row">
             <div className="col-md-4 mt-5">
               <div className="card overflow-hidden self-center rounded">
-                <img src={anime.data?.images.jpg.large_image_url} alt={`poster for ${anime.data?.title}`} className="d-none d-md-block card-img-top" />
+                <img
+                  src={anime.data?.images.jpg.large_image_url}
+                  alt={`poster for ${anime.data?.title}`}
+                  className="d-none d-md-block card-img-top"
+                />
               </div>
             </div>
-            <div className="col-md-8 mt-5 text-white">
+            <div className="col-md-8 mt-5 text-white fs-6">
               <div className="col-lg-12">
                 <div className="mb-3">
-                  <h4 className="text-white font-weight-bold mb-1">{anime.data?.title}</h4>
+                  <h4 className="text-white font-weight-bold mb-1">
+                    {anime.data?.title}
+                  </h4>
                   <span className="text-secondary text-sm d-block">
                     {anime.data?.title_japanese}, {anime.data?.title}
                   </span>
                 </div>
                 <p className="text-white">
-                  {showFullSynopsis ? anime.data.synopsis.replace("[Written by MAL Rewrite]", "") : truncateSynopsis(anime.data.synopsis.replace("[Written by MAL Rewrite]", ""))}
+                  {showFullSynopsis
+                    ? anime.data.synopsis.replace(
+                        "[Written by MAL Rewrite]",
+                        ""
+                      )
+                    : truncateSynopsis(
+                        anime.data.synopsis.replace(
+                          "[Written by MAL Rewrite]",
+                          ""
+                        )
+                      )}
                   {anime.data.synopsis.length > 300 && (
-                    <span className="cursor-pointer text-secondary" onClick={() => setShowFullSynopsis(!showFullSynopsis)}>
-                      {showFullSynopsis ? " Lebih Sedikit" : " Lihat Selengkapnya"}
+                    <span
+                      className="cursor-pointer text-secondary"
+                      onClick={() => setShowFullSynopsis(!showFullSynopsis)}
+                    >
+                      {showFullSynopsis
+                        ? " Lebih Sedikit"
+                        : " Lihat Selengkapnya"}
                     </span>
                   )}
                 </p>
@@ -61,7 +95,9 @@ const page = async ({ params: { id } }) => {
                   <div className="col-md-6">
                     <ul className="list-unstyled">
                       <li>
-                        <span className="text-white">Type:</span> {anime.data.type ? anime.data.type : "?"}, source: {anime.data.source ? anime.data.source : "?"}
+                        <span className="text-white">Type:</span>{" "}
+                        {anime.data.type ? anime.data.type : "?"}, source:{" "}
+                        {anime.data.source ? anime.data.source : "?"}
                       </li>
                       <li className="d-flex">
                         <span className="text-white">Studios:</span>{" "}
@@ -72,26 +108,40 @@ const page = async ({ params: { id } }) => {
                         </ul>
                       </li>
                       <li>
-                        <span className="text-white">Status:</span> {anime.data.status}
+                        <span className="text-white">Status:</span>{" "}
+                        {anime.data.status}
                       </li>
                       <li>
-                        <span className="text-white">Date Aired:</span> {anime.data.aired.from ? formatDate(anime.data.aired.from) : "?"} to {anime.data.aired.to ? formatDate(anime.data.aired.to) : "?"}
+                        <span className="text-white">Date Aired:</span>{" "}
+                        {anime.data.aired.from
+                          ? formatDate(anime.data.aired.from)
+                          : "?"}{" "}
+                        to{" "}
+                        {anime.data.aired.to
+                          ? formatDate(anime.data.aired.to)
+                          : "?"}
                       </li>
                     </ul>
                   </div>
                   <div className="col-md-6">
                     <ul className="list-unstyled">
                       <li>
-                        <span className="text-white">Rating:</span> {anime.data.rating ? anime.data.rating : "?"}
+                        <span className="text-white">Rating:</span>{" "}
+                        {anime.data.rating ? anime.data.rating : "?"}
                       </li>
                       <li>
-                        <span className="text-white">Durations:</span> {anime.data.duration ? anime.data.duration : "?"}
+                        <span className="text-white">Durations:</span>{" "}
+                        {anime.data.duration ? anime.data.duration : "?"}
                       </li>
                       <li>
-                        <span className="text-white">Scores:</span> {anime.data.score ? anime.data.score : "?"} / 10
+                        <span className="text-white">Scores:</span>{" "}
+                        {anime.data.score ? anime.data.score : "?"} / 10
                       </li>
                       <li>
-                        <span className="text-white">Genre:</span> {anime.data.genres.map((genre) => genre.name).join(", ")}
+                        <span className="text-white">Genre:</span>{" "}
+                        {anime.data.genres
+                          .map((genre) => genre.name)
+                          .join(", ")}
                       </li>
                     </ul>
                   </div>
@@ -101,7 +151,9 @@ const page = async ({ params: { id } }) => {
           </div>
         </div>
 
-        <div className="my-5">{trailerYoutubeId && <VideoPlayer youtubeId={trailerYoutubeId} />}</div>
+        <div className="my-5">
+          {trailerYoutubeId && <VideoPlayer youtubeId={trailerYoutubeId} />}
+        </div>
 
         <div className="my-5 mx-3 px-3 px-lg-5 mx-lg-5 px-md-4 mx-md-4">
           <h4 className="ms-2 my-2">Character in : {anime.data.title}</h4>
@@ -109,7 +161,11 @@ const page = async ({ params: { id } }) => {
             {karakter.data.slice(0, 12).map((c, index) => (
               <div className="col-2" key={index}>
                 <div>
-                  <img src={c.character.images.jpg.image_url} alt="" className="img-style rounded-2 border border-secondary" />
+                  <img
+                    src={c.character.images.jpg.image_url}
+                    alt=""
+                    className="img-style rounded-2 border border-secondary"
+                  />
                   <div className="fs-6 mb-5">{c.character.name}</div>
                 </div>
               </div>
